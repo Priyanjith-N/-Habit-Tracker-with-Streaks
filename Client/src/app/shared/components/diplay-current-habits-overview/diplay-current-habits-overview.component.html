@@ -62,7 +62,7 @@
 </div>
 
 <div class="mt-6">
-  <app-todays-overview-of-habits [data]="habitsData" />
+  <app-todays-overview-of-habits [data]="habitsData" (logAsCompletedHabit)="markedHabitAsCompleted($event);" />
 </div>
 
 @if(isModalOpen) {

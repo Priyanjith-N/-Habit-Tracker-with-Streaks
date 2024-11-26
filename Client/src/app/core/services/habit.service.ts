@@ -34,4 +34,12 @@ export class HabitService {
 
     return getAllHabitsAPIResponse$;
   }
+
+  logHabitAsCompleted(habitId: string): Observable<IHabitAPISucessfullResponseWithData<IHabit>> {
+    const api: string = `${this.backendDomain}${HabitAPIEndPoint.LOG_AS_COMPLETED_HABIT}${habitId}`;
+
+    const logHabitAsCompletedAPIResponse$: Observable<IHabitAPISucessfullResponseWithData<IHabit>> = this.httpClient.patch<IHabitAPISucessfullResponseWithData<IHabit>>(api, {});
+
+    return logHabitAsCompletedAPIResponse$;
+  }
 }

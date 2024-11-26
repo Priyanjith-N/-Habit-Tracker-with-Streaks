@@ -50,8 +50,20 @@ export class DiplayCurrentHabitsOverviewComponent {
     this.isModalOpen = status;
 
     if(newHabit) { // only add new habit after new habited is added
-      this.habitsData.push(newHabit);
+      // this.habitsData.push(newHabit);
+      this.habitsData = [...this.habitsData, newHabit];
       this.dispalyHabits = this.habitsData;
     }
+  }
+
+  markedHabitAsCompleted(updatedHabit: IHabit) {
+    console.log(updatedHabit, 'sdfs');
+    
+    this.habitsData = this.habitsData.map((habit) => {
+      if(habit._id === updatedHabit._id) return updatedHabit;
+      else return habit;
+    });
+
+    this.dispalyHabits = this.habitsData;
   }
 }

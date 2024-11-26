@@ -85,9 +85,18 @@
 
         @if(!habit.completedToday) {
         <button
-            class="bg-black text-white px-4 py-2 rounded-full transition-colors"
+          (click)="markAsCompleted(habit._id);"
+          class="bg-black text-white px-4 py-2 rounded-full transition-colors"
         >
+          @if(isFormSubmitedHabitId === habit._id) {
+            <div class="flex justify-center items-center">
+              <div class="animate-spin inline-block size-[24px] border-[3px] border-current border-t-transparent text-white rounded-full dark:text-white" role="status" aria-label="loading">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </div>
+          }@else {
             Complete
+          }
         </button>
         }@else {
             <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
