@@ -5,12 +5,12 @@ export default interface IUser {
     password: string;
 }
 
-export interface IUserLoginCredentials {
+export interface ILoginCredentials {
     email: string | undefined;
     password: string | undefined;
 }
 
-export interface IUserRegisterationCredentials {
+export interface IRegisterationCredentials {
     userName: string | undefined;
     email: string | undefined;
     password: string | undefined;
