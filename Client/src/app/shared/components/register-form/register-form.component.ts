@@ -48,7 +48,6 @@ export class RegisterFormComponent {
 
     if(password && (password as string).length < 8) {
       this.registerForm.get('password')?.setErrors({ message: `Should contain least 8 characters.` });
-
     }else if(password && confirmPassword && (password !== confirmPassword)) {
       this.registerForm.get('confirmPassword')?.setErrors({ message: `Both Password doesn't match.` });
     }
