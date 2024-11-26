@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ModalForAddingHabitComponent } from '../modal-for-adding-habit/modal-for-adding-habit.component';
+import IHabit from '../../models/habit.entity';
 
 @Component({
   selector: 'app-diplay-current-habits-overview',
@@ -13,7 +14,15 @@ import { ModalForAddingHabitComponent } from '../modal-for-adding-habit/modal-fo
 export class DiplayCurrentHabitsOverviewComponent {
   isModalOpen: boolean = false;
 
-  modalOpenOrClose(status: boolean = false) {
+  private habitsData: IHabit[] = [];
+  dispalyHabits: IHabit[] = [];
+
+  modalOpenOrClose(status: boolean = false, newHabit: IHabit | null = null) {
     this.isModalOpen = status;
+
+    if(newHabit) { // only add new habit after new habited is added
+      this.habitsData.push(newHabit);
+      this.dispalyHabits = this.habitsData;
+    }
   }
 }

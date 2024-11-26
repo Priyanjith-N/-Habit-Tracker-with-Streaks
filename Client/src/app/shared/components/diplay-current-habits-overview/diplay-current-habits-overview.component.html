@@ -26,61 +26,41 @@
 
   <div class="space-y-4">
     
-    @if(true) {
+    @if(!dispalyHabits.length) {
         <div class="text-center text-gray-500 py-4">No habits found</div>
     }
 
-    <div
-      class="bg-white border border-gray-100 rounded-lg p-4 flex items-center hover:shadow-md transition-shadow duration-300"
-    >
-      <div class="ml-2 flex-grow">
-        <h2 class="text-lg font-semibold text-gray-800">Exercise</h2>
-        <p class="text-gray-500 text-sm">30 minutes of physical activity</p>
-      </div>
-
-      <div class="flex space-x-4">
-        <div class="text-center">
-          <span class="block text-xs text-gray-400 uppercase tracking-wider"
-            >Streak</span
-          >
-          <span class="text-xl font-bold text-blue-600"> 1 </span>
+    @for (habits of dispalyHabits; track $index) {
+      <div
+        class="bg-white border border-gray-100 rounded-lg p-4 flex items-center hover:shadow-md transition-shadow duration-300"
+      >
+        <div class="ml-2 flex-grow">
+          <h2 class="text-lg font-semibold text-gray-800">{{ habits.habitName }}</h2>
+          @if(habits.description) {
+            <p class="text-gray-500 text-sm">{{ habits.description }}</p>
+          }
         </div>
-
-        <div class="text-center">
-          <span class="block text-xs text-gray-400 uppercase tracking-wider"
-            >Best</span
-          >
-          <span class="text-xl font-bold text-green-600"> 25 </span>
-        </div>
-      </div>
-    </div>
-    <div
-      class="bg-white border border-gray-100 rounded-lg p-4 flex items-center hover:shadow-md transition-shadow duration-300"
-    >
-      <div class="ml-2 flex-grow">
-        <h2 class="text-lg font-semibold text-gray-800">Exercise</h2>
-        <p class="text-gray-500 text-sm">30 minutes of physical activity</p>
-      </div>
-
-      <div class="flex space-x-4">
-        <div class="text-center">
-          <span class="block text-xs text-gray-400 uppercase tracking-wider"
-            >Streak</span
-          >
-          <span class="text-xl font-bold text-blue-600"> 1 </span>
-        </div>
-
-        <div class="text-center">
-          <span class="block text-xs text-gray-400 uppercase tracking-wider"
-            >Best</span
-          >
-          <span class="text-xl font-bold text-green-600"> 25 </span>
+  
+        <div class="flex space-x-4">
+          <div class="text-center">
+            <span class="block text-xs text-gray-400 uppercase tracking-wider"
+              >Streak</span
+            >
+            <span class="text-xl font-bold text-blue-600"> {{ habits.currentStreak }} </span>
+          </div>
+  
+          <div class="text-center">
+            <span class="block text-xs text-gray-400 uppercase tracking-wider"
+              >Best</span
+            >
+            <span class="text-xl font-bold text-green-600"> {{ habits.highestStreak }} </span>
+          </div>
         </div>
       </div>
-    </div>
+    }
   </div>
 </div>
 
 @if(isModalOpen) {
-    <app-modal-for-adding-habit (closeModal)="modalOpenOrClose();" />
+    <app-modal-for-adding-habit (closeModal)="modalOpenOrClose(false, $event);" />
 }

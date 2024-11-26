@@ -1,9 +1,15 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
+
+// services
+import { HabitService } from '../../../core/services/habit.service';
 
 // interfaces
 import { IAddHabitForm } from '../../models/IFormGroup';
-import { IHabitCredentials } from '../../models/habit.entity';
+import IHabit, { IHabitCredentials } from '../../models/habit.entity';
+import { IHabitAPISucessfullResponseWithData } from '../../models/IAPISucessResponse';
+import { IValidationError } from '../../models/IAPIError';
 
 @Component({
   selector: 'app-modal-for-adding-habit',
@@ -15,7 +21,9 @@ import { IHabitCredentials } from '../../models/habit.entity';
   styleUrl: './modal-for-adding-habit.component.css'
 })
 export class ModalForAddingHabitComponent {
-  @Output() closeModal: EventEmitter<null> = new EventEmitter();
+  @Output() closeModal: EventEmitter<IHabit | null> = new EventEmitter();
+
+  private habitService: HabitService = inject(HabitService);
 
   addHabitForm: FormGroup<IAddHabitForm>;
   isFormSubmited: boolean = false;
@@ -27,8 +35,8 @@ export class ModalForAddingHabitComponent {
     });
   }
 
-  close() {
-    this.closeModal.emit();
+  close(newHabit: IHabit | null = null) {
+    this.closeModal.emit(newHabit);
   }
 
   private trimAllWhiteSpaces(): void {
@@ -57,6 +65,25 @@ export class ModalForAddingHabitComponent {
       description: this.addHabitForm.value.description ?? ""
     }
 
-    console.log(habitCredentials);
+    const createNewHabitAPIResponse$: Observable<IHabitAPISucessfullResponseWithData<IHabit>> = this.habitService.createNewHabit(habitCredentials);
+
+    createNewHabitAPIResponse$.subscribe({
+      next: (res) => {
+        this.isFormSubmited = false;
+ 
+        this.close(res.data);
+       },
+       error: (err) => {
+         this.isFormSubmited = false;
+ 
+         if(!err.errorField) return;
+ 
+         const errObj: IValidationError = err as IValidationError;
+ 
+         this.addHabitForm.get(errObj.errorField)?.setErrors({ message: errObj.message });
+ 
+         this.addHabitForm.markAllAsTouched();
+       }
+    });
   }
 }
