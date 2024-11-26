@@ -30,6 +30,8 @@ const habitRouter: Router = Router();
 
 habitRouter.use(authMiddleware.isAuthenticate.bind(authMiddleware));
 
-habitRouter.route("/habit").post(habitController.createHabit.bind(habitController));
+habitRouter.route("/habit").
+    post(habitController.createHabit.bind(habitController)).
+    get(habitController.getAllHabitsOfUser.bind(habitController));
 
 export default habitRouter;

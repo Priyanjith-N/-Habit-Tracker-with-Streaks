@@ -29,4 +29,20 @@ export default class HabitRepository implements IHabitRepository {
             throw err;
         }
     }
+
+    async getAllHabitsOfUser(userId: string): Promise<IHabit[] | never> {
+        try {
+            return await Habits.find({ userId });
+        } catch (err: any) {
+            throw err;
+        }
+    }
+
+    async resetCurrentStreakOfHabit(habitId: string): Promise<void | never> {
+        try {
+            await Habits.updateOne({ _id: habitId }, { $set: { currentStreak: 0 } });
+        } catch (err: any) {
+            throw err;
+        }
+    }
 }
