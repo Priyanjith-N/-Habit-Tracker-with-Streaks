@@ -34,4 +34,20 @@ export class AuthService {
 
     return registerAPIResponse$;
   }
+
+  handelLogout(): Observable<IAuthAPISucessfullResponse> {
+    const api: string = `${this.backendDomain}${AuthAPIEndPoint.LOGOUT_API}`;
+
+    const logoutApiResponse$: Observable<IAuthAPISucessfullResponse> = this.httpClient.post<IAuthAPISucessfullResponse>(api, {});
+
+    return logoutApiResponse$;
+  }
+
+  isUserAuthenticated(): Observable<IAuthAPISucessfullResponse> {
+    const api: string = `${this.backendDomain}${AuthAPIEndPoint.IS_USER_AUTHENTICATED}`;
+
+    const isUserAuthenticatedAPIResponse$: Observable<IAuthAPISucessfullResponse> = this.httpClient.post<IAuthAPISucessfullResponse>(api, {});
+
+    return isUserAuthenticatedAPIResponse$;
+  }
 }

@@ -1,5 +1,8 @@
 import { Routes } from '@angular/router';
 
+// guards
+import { canAcessAuthComponentGuard } from './core/guards/can-acess-auth-component.guard';
+
 // components
 import { AuthPageComponent } from './features/auth/auth-page/auth-page.component';
 import { LoginFormComponent } from './shared/components/login-form/login-form.component';
@@ -14,6 +17,7 @@ export const routes: Routes = [
     {
         path: "auth",
         component: AuthPageComponent,
+        canActivateChild: [canAcessAuthComponentGuard],
         children: [
             {
                 path: "login",

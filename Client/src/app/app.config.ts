@@ -6,11 +6,12 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 
 // interceptors
 import { errorHandlingInterceptor } from './core/interceptors/error-handling.interceptor';
+import { authInterceptor } from './core/interceptors/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes, withViewTransitions(), withInMemoryScrolling({ scrollPositionRestoration: "top" })),
-    provideHttpClient(withInterceptors([errorHandlingInterceptor]))
+    provideHttpClient(withInterceptors([authInterceptor, errorHandlingInterceptor]))
   ]
 };
