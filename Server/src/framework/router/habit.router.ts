@@ -34,4 +34,6 @@ habitRouter.route("/habit").
     post(habitController.createHabit.bind(habitController)).
     get(habitController.getAllHabitsOfUser.bind(habitController));
 
+habitRouter.route("/habit/:habitId").patch(habitController.logHabitCompletion.bind(habitController));
+
 export default habitRouter;

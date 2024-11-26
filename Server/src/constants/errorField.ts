@@ -3,5 +3,6 @@ export const ErrorField = Object.freeze({
     PASSWORD_AND_CONFIRM_PASSWORD: "confirmPassword",
     PASSWORD: "password",
     USERNAME: "userName",
-    HABITNAME: "habitName"
+    HABITNAME: "habitName",
+    DATESCOMPLETED: "datesCompleted"
 });

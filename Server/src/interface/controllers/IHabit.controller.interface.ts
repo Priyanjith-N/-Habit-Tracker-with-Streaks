@@ -6,4 +6,5 @@ import IAuthRequest from "../common/IAuthRequest.interface";
 export default interface IHabitController {
     createHabit(req: IAuthRequest, res: Response, next: NextFunction): Promise<void>;
     getAllHabitsOfUser(req: IAuthRequest, res: Response, next: NextFunction): Promise<void>;
+    logHabitCompletion(req: IAuthRequest, res: Response, next: NextFunction): Promise<void>;
 }

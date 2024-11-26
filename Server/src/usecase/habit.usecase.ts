@@ -1,3 +1,5 @@
+import { isObjectIdOrHexString } from "mongoose";
+
 // custom error classes
 import RequiredCredentialsNotGiven from "../errors/requiredCredentialsNotGiven.error";
 import ValidationError from "../errors/validationErrorDetails.error";
@@ -74,6 +76,43 @@ export default class HabitUseCase implements IHabitUsecase {
             }
 
             return habits;
+        } catch (err: any) {
+            throw err;
+        }
+    }
+
+    async logHabitCompletion(habitId: string | undefined, userId: string): Promise<IHabit | never> {
+        try {
+            if(!habitId || !isObjectIdOrHexString(habitId)) throw new RequiredCredentialsNotGiven(ErrorMessage.REQUIRED_CREDENTIALS_NOT_GIVEN, ErrorCode.CREDENTIALS_NOT_GIVEN_OR_NOT_FOUND);
+
+            const habitData: IHabit | null = await this.habitRepository.getHabitByHabitIdAndUserId(habitId, userId);
+
+            if(!habitData) throw new RequiredCredentialsNotGiven(ErrorMessage.HABIT_NOT_FOUND, ErrorCode.HABIT_NOT_FOUND);
+
+            const currentDate: Date = new Date();
+            currentDate.setHours(0, 0, 0, 0);
+
+            if(habitData.datesCompleted.some((completedDate) => completedDate.toDateString() === currentDate.toDateString())) {
+                throw new ValidationError({
+                    statusCode: StatusCodes.BadRequest,
+                    errorField: ErrorField.DATESCOMPLETED,
+                    message: ErrorMessage.HABIT_ALREADY_LOGED_COMPLETED,
+                    errorCode: ErrorCode.HABIT_ALREADY_LOGED_COMPLETED
+                });
+            }
+
+            const yesterday: Date = new Date();
+
+            yesterday.setDate(currentDate.getDate() - 1);
+
+            if(habitData.lastUpdated && habitData.lastUpdated.toDateString() === yesterday.toDateString()) {
+                habitData.currentStreak += 1;
+                habitData.highestStreak = Math.max(habitData.currentStreak, habitData.highestStreak); // update higheststreak by comparing with current streak
+            }else{
+                habitData.currentStreak = 1;
+            }
+
+            return await this.habitRepository.updateCompletionLogForHabit(habitData._id, currentDate, habitData.currentStreak, habitData.highestStreak);
         } catch (err: any) {
             throw err;
         }

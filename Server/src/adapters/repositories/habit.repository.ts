@@ -45,4 +45,16 @@ export default class HabitRepository implements IHabitRepository {
             throw err;
         }
     }
+
+    async getHabitByHabitIdAndUserId(habitId: string, userId: string): Promise<IHabit | null | never> {
+        try {
+            return await Habits.findOne({ _id: habitId, userId });
+        } catch (err: any) {
+            throw err;
+        }
+    }
+
+    async updateCompletionLogForHabit(habitId: string, currentDate: Date, currentStreak: number, highestStreak: number): Promise<IHabit | never> {
+        return (await Habits.findOneAndUpdate({ _id: habitId }, { $addToSet: { datesCompleted: currentDate }, $set: { lastUpdated: currentDate, currentStreak, highestStreak } }, { new: true }))!;
+    }
 }

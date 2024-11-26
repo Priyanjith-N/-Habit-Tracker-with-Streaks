@@ -10,5 +10,7 @@ export const ErrorCode = Object.freeze({
     TOKEN_PAYLOAD_NOT_VALID: "400x6 token payload not vaild",
     TOKEN_EXPIRED_NEW_TOKEN_NEEDED: "401x1 token expired new token needed",
     PASSWORD_MIN_LENGTH_NOT_MEET: "400x7 Should contain least 8 characters in password",
-    HABIT_ALREADY_INLIST: "400x8 habit already in list or added"
+    HABIT_ALREADY_INLIST: "400x8 habit already in list or added",
+    HABIT_NOT_FOUND: "404x4 habit not found invaild details",
+    HABIT_ALREADY_LOGED_COMPLETED: "400x8 habit already loged completed"
 });
