@@ -1,0 +1,61 @@
+<div>
+    <div class="mb-[32px] text-center flex flex-col items-center">
+        <h2 class="font-semibold text-[39px] tracking-[-2%]">Welcome back</h2>
+        <p class="text-[#96A0AD] max-w-[273px] break-words text-center text-[14px]">
+            Welcome back! Sign in to pick up where you left off and stay on track with your habits!</p>
+    </div>
+    <div >
+        <form [formGroup]="loginForm" (submit)="onSubmit();">
+            <div class="flex flex-col items-center">
+                <div class="w-[300px]">
+                    <div>
+                        <div class="mb-[28px]">
+                            <label for="email">
+                                <p class="font-medium text-[14px]" [class.error]="loginForm.get('email')?.errors  && loginForm.get('email')!.touched">Email</p>
+                            </label>
+                            <div class="relative mt-[8px]">
+                                <input formControlName="email" id="email" type="text" placeholder="Enter your email" class="placeholder:text-[#96A0AD] placeholder:text-[16px] py-[12px] pl-[18px] border border-solid border-[#BDC4CD] rounded-[12px] outline-none w-full text-black" [class.error]="loginForm.get('email')?.errors  && loginForm.get('email')!.touched">
+                                @if(loginForm.get('email')!.hasError('required')  && loginForm.get('email')!.touched){
+                                    <p class="text-[13px] text-[#FF6B6B] absolute -bottom-[26px]">This Field is required.</p>
+                                }@else if (loginForm.get('email')!.hasError('pattern') && loginForm.get('email')!.touched) {
+                                    <p class="text-[13px] text-[#FF6B6B] absolute -bottom-[26px]">Enter Valid Email.</p>
+                                }@else if (loginForm.get('email')!.errors  && loginForm.get('email')!.touched) {
+                                    <p class="text-[13px] text-[#FF6B6B] absolute -bottom-[26px]">{{ loginForm.get('email')?.errors?.['message'] }}</p>
+                                }
+                            </div>
+                        </div>
+                        <div>
+                            <label for="password">
+                                <p class="font-medium text-[14px]" [class.error]="loginForm.get('password')?.errors  && loginForm.get('password')!.touched">Password</p>
+                            </label>
+                            <div class="relative mt-[8px]">
+                                <input formControlName="password" id="password" type="password" placeholder="Enter your password" class="placeholder:text-[#96A0AD] placeholder:text-[16px] py-[12px] pl-[18px] border border-solid border-[#BDC4CD] rounded-[12px] outline-none w-full" [class.error]="loginForm.get('password')?.errors  && loginForm.get('password')!.touched">
+                                @if(loginForm.get('password')!.hasError('required')  && loginForm.get('password')!.touched){
+                                    <p class="text-[13px] text-[#FF6B6B] absolute -bottom-[26px]">This Field is required.</p>
+                                }@else if (loginForm.get('password')!.errors  && loginForm.get('password')!.touched) {
+                                    <p class="text-[13px] text-[#FF6B6B] absolute -bottom-[26px]">{{ loginForm.get('password')?.errors?.['message'] }}</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <button type="submit" class="py-[14px] mt-11 bg-black text-white font-bold text-[16px] rounded-[16px] text-center w-full">
+                            @if(isFormSubmited) {
+                                <div class="flex justify-center items-center">
+                                  <div class="animate-spin inline-block size-[24px] border-[3px] border-current border-t-transparent text-white rounded-full dark:text-white" role="status" aria-label="loading">
+                                    <span class="sr-only">Loading...</span>
+                                  </div>
+                                </div>
+                            }@else {
+                                Log in
+                            }
+                        </button>
+                    </div>
+                </div>
+                <div class="mt-10">
+                    <p class="text-[14px] font-medium">Don't have an account yet?  <span routerLink="/auth/register" class="font-semibold cursor-pointer text-[#3213AE]">Sign up</span> now to join our community</p>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
