@@ -1,0 +1,86 @@
+<div>
+    <div class="mb-[32px] text-center flex flex-col items-center">
+        <h2 class="font-semibold text-[39px] tracking-[-2%]">Welcome to Habit Tracker!</h2>
+        <p class="text-[#96A0AD] max-w-[300px] break-words text-center text-[14px]">Sign up to start building better habits and achieving your goals!</p>
+    </div>
+    <div >
+        <form [formGroup]="registerForm" (submit)="onSubmit();" >
+            <div class="flex flex-col items-center">
+                <div class="w-[300px]">
+                    <div>
+                        <div class="mb-[24px]">
+                            <label for="userName">
+                                <p class="font-medium text-[14px]" [class.error]="registerForm.get('userName')?.errors  && registerForm.get('userName')!.touched" >Username</p>
+                            </label>
+                            <div class="relative mt-[8px]">
+                                <input formControlName="userName" id="username" type="text" placeholder="Enter your username" class="placeholder:text-[#96A0AD] placeholder:text-[16px] py-[12px] pl-[18px] border border-solid border-[#BDC4CD] rounded-[12px] outline-none w-full" [class.error]="registerForm.get('userName')?.errors  && registerForm.get('userName')!.touched">
+                                @if(registerForm.get('userName')!.hasError('required')  && registerForm.get('userName')!.touched){
+                                    <p class="text-[13px] text-[#FF6B6B] absolute -bottom-[23px]">This Field is required.</p>
+                                }@else if (registerForm.get('userName')!.errors  && registerForm.get('userName')!.touched) {
+                                    <p class="text-[13px] text-[#FF6B6B] absolute -bottom-[23px]">{{ registerForm.get('userName')?.errors?.['message'] }}</p>
+                                }
+                            </div>
+                        </div>
+                        <div class="mb-[24px]">
+                            <label for="email">
+                                <p class="font-medium text-[14px]" [class.error]="registerForm.get('email')?.errors  && registerForm.get('email')!.touched" >Email</p>
+                            </label>
+                            <div class="relative mt-[8px]">
+                                <input formControlName="email" id="email" type="text" placeholder="Enter your email" class="placeholder:text-[#96A0AD] placeholder:text-[16px] py-[12px] pl-[18px] border border-solid border-[#BDC4CD] rounded-[12px] outline-none w-full" [class.error]="registerForm.get('email')?.errors  && registerForm.get('email')!.touched">
+                                @if(registerForm.get('email')!.hasError('required')  && registerForm.get('email')!.touched){
+                                    <p class="text-[13px] text-[#FF6B6B] absolute -bottom-[23px]">This Field is required.</p>
+                                }@else if (registerForm.get('email')!.hasError('pattern') && registerForm.get('email')!.touched) {
+                                    <p class="text-[13px] text-[#FF6B6B] absolute -bottom-[23px]">Enter Valid Email.</p>
+                                }@else if (registerForm.get('email')!.errors  && registerForm.get('email')!.touched) {
+                                    <p class="text-[13px] text-[#FF6B6B] absolute -bottom-[23px]">{{ registerForm.get('email')?.errors?.['message'] }}</p>
+                                }
+                            </div>
+                        </div>
+                        <div class="mb-[24px]" >
+                            <label for="password">
+                                <p class="font-medium text-[14px]" [class.error]="registerForm.get('password')?.errors  && registerForm.get('password')!.touched || registerForm.get('confirmPassword')?.errors  && registerForm.get('confirmPassword')!.touched" >Password</p>
+                            </label>
+                            <div class="relative mt-[8px]">
+                                <input formControlName="password" id="password" type="password" placeholder="Enter your password" class="placeholder:text-[#96A0AD] placeholder:text-[16px] py-[12px] pl-[18px] border border-solid border-[#BDC4CD] rounded-[12px] outline-none w-full" [class.error]="registerForm.get('password')?.errors  && registerForm.get('password')!.touched || registerForm.get('confirmPassword')?.errors  && registerForm.get('confirmPassword')!.touched">
+                                @if(registerForm.get('password')!.hasError('required')  && registerForm.get('password')!.touched){
+                                    <p class="text-[13px] text-[#FF6B6B] absolute -bottom-[23px]">This Field is required.</p>
+                                }@else if (registerForm.get('password')!.errors  && registerForm.get('password')!.touched) {
+                                    <p class="text-[13px] text-[#FF6B6B] absolute -bottom-[23px]">{{ registerForm.get('password')?.errors?.['message'] }}</p>
+                                }
+                            </div>
+                        </div>
+                        <div>
+                            <label for="confirmpassword">
+                                <p class="font-medium text-[14px]" [class.error]="registerForm.get('confirmPassword')?.errors  && registerForm.get('confirmPassword')!.touched || registerForm.get('password')?.errors  && registerForm.get('password')!.touched" >Confirm password</p>
+                            </label>
+                            <div class="relative mt-[8px]">
+                                <input formControlName="confirmPassword" id="confirmpassword" type="password" placeholder="Enter your confirmpassword" class="placeholder:text-[#96A0AD] placeholder:text-[16px] py-[12px] pl-[18px] border border-solid border-[#BDC4CD] rounded-[12px] outline-none w-full" [class.error]="registerForm.get('confirmPassword')?.errors  && registerForm.get('confirmPassword')!.touched || registerForm.get('password')?.errors  && registerForm.get('password')!.touched">
+                                @if(registerForm.get('confirmPassword')!.hasError('required')  && registerForm.get('confirmPassword')!.touched){
+                                    <p class="text-[13px] text-[#FF6B6B] absolute -bottom-[23px]">This Field is required.</p>
+                                }@else if (registerForm.get('confirmPassword')!.errors  && registerForm.get('confirmPassword')!.touched) {
+                                    <p class="text-[13px] text-[#FF6B6B] absolute -bottom-[23px]">{{ registerForm.get('confirmPassword')?.errors?.['message'] }}</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <button type="submit" class="py-[14px] mt-9 bg-black text-white font-bold text-[16px] rounded-[16px] text-center w-full">
+                            @if(isFormSubmited) {
+                                <div class="flex justify-center items-center">
+                                  <div class="animate-spin inline-block size-[24px] border-[3px] border-current border-t-transparent text-white rounded-full dark:text-white" role="status" aria-label="loading">
+                                    <span class="sr-only">Loading...</span>
+                                  </div>
+                                </div>
+                            }@else {
+                                Sign up
+                            }
+                        </button>
+                    </div>
+                </div>
+                <div class="mt-10">
+                    <p class="text-[14px] font-medium">Don't have an account yet?  <span routerLink="/auth/login" class="font-semibold cursor-pointer text-[#3213AE]">Sign in</span> now to join our community</p>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
