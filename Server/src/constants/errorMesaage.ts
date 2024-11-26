@@ -7,9 +7,7 @@ export const ErrorMessage = Object.freeze({
     EMAIL_ALREADY_TAKEN: "Email already taken.",
     USER_NOT_FOUND: "No user with that email.",
     PASSWORD_INCORRECT: "Password incorrect.",
+    PASSWORD_MIN_LENGTH_NOT_MEET: "Should contain least 8 characters.",
     NOT_AUTHENTICATED: "Not authenticated.",
-    TOKEN_EXPIRED: "Token expired.",
-    MIN_TITLE_LENGTH_NOT_MEET: "Provide at least 5 characters.",
-    MIN_CONTENT_LENGTH_NOT_MEET: "Provide at least 50 characters.",
-    INVAILD_OR_NOT_AUTHER_OF_BLOG: "Either user is not the auther of this blog or invaild credentials.",
+    TOKEN_EXPIRED: "Token expired."
 });

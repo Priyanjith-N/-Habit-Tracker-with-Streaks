@@ -7,8 +7,15 @@ import { StatusCodes } from "../../constants/statusCode";
 // interfaces
 import IAuthController from "../../interface/controllers/IAuth.controller.interface";
 import { IRegisterationCredentials } from "../../entity/IUser.entity";
+import IAuthUseCase from "../../interface/usecase/IAuth.usecase.interface";
 
 export default class AuthController implements IAuthController {
+    private authUseCase: IAuthUseCase;
+
+    constructor(authUseCase: IAuthUseCase) {
+        this.authUseCase = authUseCase;
+    }
+
     async registerUser(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
             const registerationCredentials: IRegisterationCredentials = {
@@ -18,7 +25,13 @@ export default class AuthController implements IAuthController {
                 confirmPassword: req.body.confirmPassword
             }
 
-            // usecase logic
+            const token: string = await this.authUseCase.handelUserRegister(registerationCredentials);
+
+            res.cookie('token', token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                maxAge: 1 * 24 * 60 * 60 * 1000
+            });
 
             res.status(StatusCodes.Success).json({
                 message: ResponseMessage.REGISTERTATION_SUCCESS
