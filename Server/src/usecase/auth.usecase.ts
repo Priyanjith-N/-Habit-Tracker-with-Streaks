@@ -10,7 +10,7 @@ import ValidationError from "../errors/validationErrorDetails.error";
 
 // interfaces
 import IAuthUseCase from "../interface/usecase/IAuth.usecase.interface";
-import IUser, { IRegisterationCredentials } from "../entity/IUser.entity";
+import IUser, { ILoginCredentials, IRegisterationCredentials } from "../entity/IUser.entity";
 import IAuthRepository from "../interface/repositories/IAuth.repository.interface";
 import IHashingService from "../interface/utils/IHashingService";
 import IJWTService, { IPayload } from "../interface/utils/IJWTService";
@@ -56,14 +56,24 @@ export default class AuthUseCase implements IAuthUseCase {
             const userData: IUser | null = await this.authRepository.isUserExist(data.email, data.userName);
 
             if (userData && userData.userName === data.userName) {
-                throw new ValidationError({ statusCode: StatusCodes.BadRequest, errorField: ErrorField.USERNAME, message: ErrorMessage.USERNAME_ALREADY_TAKEN, errorCode: ErrorCode.USERNAME_TAKEN });
+                throw new ValidationError({
+                    statusCode: StatusCodes.BadRequest,
+                    errorField: ErrorField.USERNAME,
+                    message: ErrorMessage.USERNAME_ALREADY_TAKEN,
+                    errorCode: ErrorCode.USERNAME_TAKEN
+                });
             }else if(userData && userData.email === data.email) {
-                throw new ValidationError({ statusCode: StatusCodes.BadRequest, errorField: ErrorField.EMAIL, message: ErrorMessage.EMAIL_ALREADY_TAKEN, errorCode: ErrorCode.EMAIL_TAKEN });
+                throw new ValidationError({
+                    statusCode: StatusCodes.BadRequest,
+                    errorField: ErrorField.EMAIL,
+                    message: ErrorMessage.EMAIL_ALREADY_TAKEN,
+                    errorCode: ErrorCode.EMAIL_TAKEN
+                });
             }
 
             const newUserData: Omit<IUser, "_id"> = {
                 userName: data.userName,
-                email: data.email,
+                email: data.email.toLowerCase(),
                 password: await this.hashingService.hash(data.password)
             }
 
@@ -77,6 +87,49 @@ export default class AuthUseCase implements IAuthUseCase {
 
             return token;
         } catch (err) {
+            throw err;
+        }
+    }
+
+    async handelUserLogin(loginCredentials: ILoginCredentials): Promise<string | never> {
+        try {
+            if(!loginCredentials.email || !loginCredentials.password) throw new RequiredCredentialsNotGiven(ErrorMessage.REQUIRED_CREDENTIALS_NOT_GIVEN, ErrorCode.CREDENTIALS_NOT_GIVEN_OR_NOT_FOUND);
+
+            if(!(/^[A-Za-z0-9]+@gmail\.com$/).test(loginCredentials.email)) {
+                throw new ValidationError({
+                    statusCode: StatusCodes.BadRequest,
+                    errorField: ErrorField.EMAIL,
+                    message: ErrorMessage.EMAIL_NOT_VAILD,
+                    errorCode: ErrorCode.PROVIDE_VAILD_EMAIL
+                });
+            }
+
+            const userData: IUser | null = await this.authRepository.getUserDataByEmail(loginCredentials.email);
+
+            if(!userData) {
+                throw new ValidationError({
+                    errorField: ErrorField.EMAIL,
+                    message: ErrorMessage.USER_NOT_FOUND,
+                    statusCode: StatusCodes.NotFound,
+                    errorCode: ErrorCode.USER_NOT_FOUND
+                });
+            }else if(!await this.hashingService.compare(loginCredentials.password, userData.password)) {
+                throw new ValidationError({
+                    errorField: ErrorField.PASSWORD,
+                    message: ErrorMessage.PASSWORD_INCORRECT,
+                    statusCode: StatusCodes.BadRequest,
+                    errorCode: ErrorCode.PASSWORD_INCORRECT
+                });
+            }
+
+            const payload: IPayload = {
+                id: userData._id
+            }
+
+            const token: string = this.JWTService.sign(payload, "1d");
+
+            return token;
+        } catch (err: any) {
             throw err;
         }
     }

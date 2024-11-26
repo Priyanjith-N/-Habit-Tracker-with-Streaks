@@ -25,4 +25,12 @@ export default class AuthRepository implements IAuthRepository {
             throw err;
         }
     }
+
+    async getUserDataByEmail(email: string): Promise<IUser | null | never> {
+        try {
+            return await Users.findOne({ email: { $regex: new RegExp(`^${email}$`, 'i') } });
+        } catch (err: any) {
+            throw err;
+        }
+    }
 }

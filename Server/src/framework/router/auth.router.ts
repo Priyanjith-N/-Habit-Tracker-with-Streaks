@@ -28,4 +28,6 @@ const authRouter: Router = Router();
 
 authRouter.route("/register").post(authController.registerUser.bind(authController));
 
+authRouter.route("/login").post(authController.loginUser.bind(authController));
+
 export default authRouter;
