@@ -37,7 +37,7 @@ export default class AuthController implements IAuthController {
             res.status(StatusCodes.Success).json({
                 message: ResponseMessage.REGISTERTATION_SUCCESS
             });
-        } catch (err) {
+        } catch (err: any) {
             next(err);
         }
     }

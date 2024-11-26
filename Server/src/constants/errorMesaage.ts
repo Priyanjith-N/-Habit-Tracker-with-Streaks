@@ -9,5 +9,6 @@ export const ErrorMessage = Object.freeze({
     PASSWORD_INCORRECT: "Password incorrect.",
     PASSWORD_MIN_LENGTH_NOT_MEET: "Should contain least 8 characters.",
     NOT_AUTHENTICATED: "Not authenticated.",
-    TOKEN_EXPIRED: "Token expired."
+    TOKEN_EXPIRED: "Token expired.",
+    HABIT_ALREADY_INLIST: "Habit already added."
 });
