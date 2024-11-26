@@ -3,12 +3,13 @@
     <h1 class="text-3xl font-bold text-gray-800">Habit Tracker</h1>
 
     <button
+      (click)="modalOpenOrClose(true);"
       class="bg-gray-100 hover:bg-gray-200 p-2 rounded-full transition-colors duration-200"
       aria-label="Add New Habit"
     >
-    <div class="text-gray-700" >
-        <img src="/icons/plus.svg" class="w-[24px] h-[24px]" alt="plusIcon">
-    </div>
+        <div class="text-gray-700" >
+            <img src="/icons/plus.svg" class="w-[24px] h-[24px]" alt="plusIcon">
+        </div>
     </button>
   </div>
 
@@ -79,3 +80,7 @@
     </div>
   </div>
 </div>
+
+@if(isModalOpen) {
+    <app-modal-for-adding-habit (closeModal)="modalOpenOrClose();" />
+}

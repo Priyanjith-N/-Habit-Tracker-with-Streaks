@@ -1,0 +1,65 @@
+<div
+  class="fixed inset-0 bg-black bg-opacity-30 z-50 flex justify-center items-center"
+>
+  <div class="bg-white rounded-lg shadow-xl p-6 w-96 relative z-50">
+    <button (click)="close();" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+      <img src="/icons/close.svg" class="w-[24px] h-[24px]" alt="closeIcon">
+    </button>
+
+    <h2 class="text-2xl font-bold mb-6 text-gray-800">Add New Habit</h2>
+
+    <form [formGroup]="addHabitForm" (submit)="onSubmit();" >
+        <div class="mb-6">
+          <label class="block text-gray-700 font-semibold mb-2" [class.error]="addHabitForm.get('habitName')?.errors  && addHabitForm.get('habitName')!.touched">
+            Habit Name <span class="text-red-500">*</span>
+          </label>
+          <div class="relative">
+            <input
+              formControlName="habitName"
+              type="text"
+              placeholder="Enter habit name"
+              class="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all duration-200"
+              [class.error]="addHabitForm.get('habitName')?.errors  && addHabitForm.get('habitName')!.touched"
+            />
+            @if(addHabitForm.get('habitName')!.hasError('required')  && addHabitForm.get('habitName')!.touched){
+              <p class="text-[13px] text-[#FF6B6B] absolute -bottom-[24px]">This Field is required.</p>
+            }@else if (addHabitForm.get('habitName')!.errors  && addHabitForm.get('habitName')!.touched) {
+              <p class="text-[13px] text-[#FF6B6B] absolute -bottom-[24px]">{{ addHabitForm.get('habitName')?.errors?.['message'] }}</p>
+            }
+          </div>
+        </div>
+    
+        <div class="mb-6">
+          <label class="block text-gray-700 font-semibold mb-2" [class.error]="addHabitForm.get('description')?.errors  && addHabitForm.get('description')!.touched">
+            Description (Optional)
+          </label>
+          <div class="relative">
+            <textarea
+            formControlName="description"
+              placeholder="Enter habit description"
+              class="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all duration-200"
+              rows="3"
+              [class.error]="addHabitForm.get('description')?.errors  && addHabitForm.get('description')!.touched"
+            ></textarea>
+            @if (addHabitForm.get('description')!.errors  && addHabitForm.get('description')!.touched) {
+              <p class="text-[13px] text-[#FF6B6B] absolute -bottom-[24px]">{{ addHabitForm.get('description')?.errors?.['message'] }}</p>
+            }
+          </div>
+        </div>
+        <button
+          type="submit"
+          class="py-2 bg-black text-white font-bold text-[16px] rounded-lg text-center w-full"
+        >
+          @if(isFormSubmited) {
+            <div class="flex justify-center items-center">
+              <div class="animate-spin inline-block size-[24px] border-[3px] border-current border-t-transparent text-white rounded-full dark:text-white" role="status" aria-label="loading">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </div>
+          }@else {  
+            Add Habit
+          }
+        </button>
+    </form>
+  </div>
+</div>
