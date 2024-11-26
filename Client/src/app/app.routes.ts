@@ -2,12 +2,14 @@ import { Routes } from '@angular/router';
 
 // guards
 import { canAcessAuthComponentGuard } from './core/guards/can-acess-auth-component.guard';
+import { authGuard } from './core/guards/auth.guard';
 
 // components
 import { AuthPageComponent } from './features/auth/auth-page/auth-page.component';
 import { LoginFormComponent } from './shared/components/login-form/login-form.component';
 import { RegisterFormComponent } from './shared/components/register-form/register-form.component';
 import { HomePageComponent } from './features/home/home-page/home-page.component';
+import { DiplayCurrentHabitsOverviewComponent } from './shared/components/diplay-current-habits-overview/diplay-current-habits-overview.component';
 
 export const routes: Routes = [
     {
@@ -33,5 +35,12 @@ export const routes: Routes = [
     {
         path: "",
         component: HomePageComponent,
+        canActivateChild: [authGuard],
+        children: [
+            {
+                path: "",
+                component: DiplayCurrentHabitsOverviewComponent
+            }
+        ]
     }
 ];
