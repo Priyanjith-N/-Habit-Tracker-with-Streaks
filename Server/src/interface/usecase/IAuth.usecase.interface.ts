@@ -4,4 +4,5 @@ import { ILoginCredentials, IRegisterationCredentials } from "../../entity/IUser
 export default interface IAuthUseCase {
     handelUserRegister(data: IRegisterationCredentials): Promise<string | never>;
     handelUserLogin(loginCredentials: ILoginCredentials): Promise<string | never>;
+    isUserAuthenticated(token: string | undefined): Promise<void | never>;
 }

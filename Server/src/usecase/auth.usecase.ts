@@ -1,3 +1,5 @@
+import { isObjectIdOrHexString } from "mongoose";
+
 // constants
 import { ErrorCode } from "../constants/customStatusErrorCode";
 import { ErrorMessage } from "../constants/errorMesaage";
@@ -7,6 +9,7 @@ import { ErrorField } from "../constants/errorField";
 // custom error classes
 import RequiredCredentialsNotGiven from "../errors/requiredCredentialsNotGiven.error";
 import ValidationError from "../errors/validationErrorDetails.error";
+import JWTTokenError from "../errors/jwtTokenError.error";
 
 // interfaces
 import IAuthUseCase from "../interface/usecase/IAuth.usecase.interface";
@@ -129,6 +132,34 @@ export default class AuthUseCase implements IAuthUseCase {
             const token: string = this.JWTService.sign(payload, "1d");
 
             return token;
+        } catch (err: any) {
+            throw err;
+        }
+    }
+
+    async isUserAuthenticated(token: string | undefined): Promise<void | never> {
+        try {
+            if(!token) throw new JWTTokenError({
+                statusCode: StatusCodes.NotFound,
+                message: ErrorMessage.NOT_AUTHENTICATED,
+                errorCode: ErrorCode.TOKEN_NOT_FOUND
+            });
+
+            try {
+                const decoded: IPayload = this.JWTService.verifyToken(token);
+
+                if(!isObjectIdOrHexString(decoded.id)) throw new JWTTokenError({
+                    statusCode: StatusCodes.BadRequest,
+                    message: ErrorMessage.NOT_AUTHENTICATED,
+                    errorCode: ErrorCode.TOKEN_PAYLOAD_NOT_VALID
+                });
+            } catch (err: any) {
+                throw new JWTTokenError({
+                    statusCode: StatusCodes.Unauthorized,
+                    message: ErrorMessage.TOKEN_EXPIRED,
+                    errorCode: ErrorCode.TOKEN_EXPIRED_NEW_TOKEN_NEEDED
+                });
+            }
         } catch (err: any) {
             throw err;
         }

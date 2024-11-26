@@ -37,4 +37,6 @@ authRouter.route("/login").post(authController.loginUser.bind(authController));
 
 authRouter.route("/logout").post(authMiddleware.isAuthenticate.bind(authMiddleware), authController.logoutUser.bind(authController));
 
+authRouter.route("/isuserauthenticated").post(authController.isUserAuthenticated.bind(authController));
+
 export default authRouter;
