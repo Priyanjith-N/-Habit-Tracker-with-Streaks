@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 
 // componets
 import { ModalForAddingHabitComponent } from '../modal-for-adding-habit/modal-for-adding-habit.component';
+import { TodaysOverviewOfHabitsComponent } from '../todays-overview-of-habits/todays-overview-of-habits.component';
 
 // services
 import { HabitService } from '../../../core/services/habit.service';
@@ -15,7 +16,8 @@ import { IHabitAPISucessfullResponseWithData } from '../../models/IAPISucessResp
   selector: 'app-diplay-current-habits-overview',
   standalone: true,
   imports: [
-    ModalForAddingHabitComponent
+    ModalForAddingHabitComponent,
+    TodaysOverviewOfHabitsComponent
   ],
   templateUrl: './diplay-current-habits-overview.component.html',
   styleUrl: './diplay-current-habits-overview.component.css'
@@ -25,7 +27,7 @@ export class DiplayCurrentHabitsOverviewComponent {
 
   isModalOpen: boolean = false;
 
-  private habitsData: IHabit[] = [];
+  habitsData: IHabit[] = [];
   dispalyHabits: IHabit[] = [];
 
   constructor() {

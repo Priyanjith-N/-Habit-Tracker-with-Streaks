@@ -13,3 +13,7 @@ export interface IHabitCredentials {
     habitName: string;
     description: string;
 }
+
+export interface IHabitWithCompletionStatus extends IHabit {
+    completedToday: boolean;
+}

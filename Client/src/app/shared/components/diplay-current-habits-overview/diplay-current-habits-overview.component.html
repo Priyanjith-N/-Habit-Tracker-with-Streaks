@@ -1,6 +1,6 @@
 <div class="container mx-auto p-6 max-w-2xl">
   <div class="flex justify-between items-center mb-6">
-    <h1 class="text-3xl font-bold text-gray-800">Habit Tracker</h1>
+    <h1 class="text-3xl font-bold text-gray-800">Daily Habits</h1>
 
     <button
       (click)="modalOpenOrClose(true);"
@@ -24,7 +24,7 @@
     </div>
   </div>
 
-  <div class="space-y-4">
+  <div class="space-y-4 max-h-[367px] overflow-y-auto habitContainer pb-6">
     
     @if(!dispalyHabits.length) {
         <div class="text-center text-gray-500 py-4">No habits found</div>
@@ -59,6 +59,10 @@
       </div>
     }
   </div>
+</div>
+
+<div class="mt-6">
+  <app-todays-overview-of-habits [data]="habitsData" />
 </div>
 
 @if(isModalOpen) {

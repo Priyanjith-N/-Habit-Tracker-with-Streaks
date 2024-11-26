@@ -1,0 +1,3 @@
+.habitContainer::-webkit-scrollbar {
+    display: none;
+}
