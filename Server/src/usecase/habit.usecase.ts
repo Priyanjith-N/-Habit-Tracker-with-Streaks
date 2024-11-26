@@ -109,6 +109,8 @@ export default class HabitUseCase implements IHabitUsecase {
                 habitData.currentStreak += 1;
                 habitData.highestStreak = Math.max(habitData.currentStreak, habitData.highestStreak); // update higheststreak by comparing with current streak
             }else{
+                if(habitData.highestStreak === 0) habitData.highestStreak = 1;
+                
                 habitData.currentStreak = 1;
             }
 
