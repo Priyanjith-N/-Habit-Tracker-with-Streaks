@@ -26,4 +26,12 @@ export class HabitService {
 
     return createNewHabitAPIResponse$;
   }
+
+  getAllHabits(): Observable<IHabitAPISucessfullResponseWithData<IHabit[]>> {
+    const api: string = `${this.backendDomain}${HabitAPIEndPoint.GET_ALL_HABITS}`;
+
+    const getAllHabitsAPIResponse$: Observable<IHabitAPISucessfullResponseWithData<IHabit[]>> = this.httpClient.get<IHabitAPISucessfullResponseWithData<IHabit[]>>(api);
+
+    return getAllHabitsAPIResponse$;
+  }
 }
