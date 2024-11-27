@@ -1,0 +1,12 @@
+/* FullDay highlight for habit completed (green) */
+.fc-day.fc-day-2024-11-27, .fc-day.fc-day-2024-11-25 {
+    background-color: green !important;
+    color: white !important;
+  }
+  
+  /* Highlight today's date in blue */
+  .fc-day.fc-today {
+    background-color: blue !important;
+    color: white !important;
+  }
+  

@@ -10,6 +10,7 @@ import { LoginFormComponent } from './shared/components/login-form/login-form.co
 import { RegisterFormComponent } from './shared/components/register-form/register-form.component';
 import { HomePageComponent } from './features/home/home-page/home-page.component';
 import { DiplayCurrentHabitsOverviewComponent } from './shared/components/diplay-current-habits-overview/diplay-current-habits-overview.component';
+import { CalendarViewComponent } from './shared/components/calendar-view/calendar-view.component';
 
 export const routes: Routes = [
     {
@@ -40,6 +41,10 @@ export const routes: Routes = [
             {
                 path: "",
                 component: DiplayCurrentHabitsOverviewComponent
+            },
+            {
+                path: "calendarview/:habitId",
+                component: CalendarViewComponent
             }
         ]
     }

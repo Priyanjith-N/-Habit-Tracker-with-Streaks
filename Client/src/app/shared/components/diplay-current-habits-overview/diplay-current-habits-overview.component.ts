@@ -11,13 +11,15 @@ import { HabitService } from '../../../core/services/habit.service';
 // interfaces
 import IHabit from '../../models/habit.entity';
 import { IHabitAPISucessfullResponseWithData } from '../../models/IAPISucessResponse';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-diplay-current-habits-overview',
   standalone: true,
   imports: [
     ModalForAddingHabitComponent,
-    TodaysOverviewOfHabitsComponent
+    TodaysOverviewOfHabitsComponent,
+    RouterLink
   ],
   templateUrl: './diplay-current-habits-overview.component.html',
   styleUrl: './diplay-current-habits-overview.component.css'

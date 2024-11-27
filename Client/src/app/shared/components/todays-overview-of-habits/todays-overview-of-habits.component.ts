@@ -38,10 +38,11 @@ export class TodaysOverviewOfHabitsComponent implements OnChanges {
 
   loadData() {
     this.habitsData = this.data.map((habit) => {
+      
       let completedToday: boolean = false;
-
+      
       const today = new Date();
-
+      
       const lastUpdated: Date | null = habit.lastUpdated ? new Date(habit.lastUpdated) : null;
 
       if(lastUpdated && lastUpdated.toISOString().split("T")[0] === today.toISOString().split("T")[0]) completedToday = true;

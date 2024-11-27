@@ -19,8 +19,8 @@
       placeholder="Search habits..."
       class="w-full px-4 py-2 pl-10 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 transition-all duration-200"
     />
-    <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" >
-        <img src="/icons/search.svg" class="w-[20px] h-[20px]" alt="searchIcon">
+    <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 select-none" >
+        <img src="/icons/search.svg" class="w-[20px] h-[20px] select-none" alt="searchIcon">
     </div>
   </div>
 
@@ -34,7 +34,7 @@
       <div
         class="bg-white border border-gray-100 rounded-lg p-4 flex items-center hover:shadow-md transition-shadow duration-300"
       >
-        <div class="ml-2 flex-grow">
+        <div [routerLink]="['/calendarview', habits._id]" class="ml-2 flex-grow cursor-pointer">
           <h2 class="text-lg font-semibold text-gray-800">{{ habits.habitName }}</h2>
           @if(habits.description) {
             <p class="text-gray-500 text-sm">{{ habits.description }}</p>
