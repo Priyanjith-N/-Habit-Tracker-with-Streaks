@@ -105,7 +105,11 @@
                       <!-- <time datetime="2021-12-27">27</time> -->
                     </div>   
                 }@else {
-                    <div class="relative bg-green-100 px-3 py-2 min-h-[96px]">
+                    <div class="relative px-3 py-2 min-h-[96px]"  [ngClass]="{
+                        'bg-green-100': dayIsCompleted(day) === 'completed',
+                        'bg-red-100': dayIsCompleted(day) === 'not-completed',
+                        'bg-white': dayIsCompleted(day) === 'day-not-meet'
+                      }">
                       <time datetime="2022-01-01">{{ day }}</time>
                     </div>
                 }

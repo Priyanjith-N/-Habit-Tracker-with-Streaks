@@ -7,6 +7,7 @@ export default interface IHabit {
     currentStreak: number;
     highestStreak: number;
     lastUpdated: Date | null;
+    createdAt: Date;
 }
 
 export interface IHabitCredentials {
