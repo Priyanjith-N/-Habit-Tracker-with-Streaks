@@ -42,8 +42,38 @@ export class CalendarViewComponent {
     this.generateCalendar(this.currentMonth)
   }
 
+  changeMonth(monthNumber: number) {
+    this.currentMonth = new Date(
+      this.currentMonth.getFullYear(),
+      monthNumber,
+      1
+    );
+    this.generateCalendar(this.currentMonth);
+    this.toggleMonth();
+  }
+
   toggleMonth() {
     this.toggleChangeMonth = !this.toggleChangeMonth;
+  }
+
+  changeYear(previousYear: boolean) {
+    const todayDate: Date = new Date();
+
+    const currentYear = todayDate.getFullYear();
+    
+    if(!previousYear && currentYear < (this.currentMonth.getFullYear() + 1)) return;
+    
+    if(previousYear && (this.currentMonth.getFullYear() - 1) <= 0) return;
+
+    const year: number = previousYear ? (this.currentMonth.getFullYear() - 1) : (this.currentMonth.getFullYear() + 1);
+
+    this.currentMonth = new Date(
+      year,
+      this.currentMonth.getMonth(),
+      1
+    );
+
+    this.generateCalendar(this.currentMonth);
   }
 
   getData() {
@@ -71,7 +101,7 @@ export class CalendarViewComponent {
 
     const habitCreatedDate: Date = new Date(this.habitData.createdAt);
 
-    if(habitCreatedDate.getMonth() === currentMonth && habitCreatedDate.getDate() > day) {
+    if(habitCreatedDate.getFullYear() > this.currentMonth.getFullYear() || (habitCreatedDate.getMonth() > currentMonth) || (habitCreatedDate.getMonth() === currentMonth && habitCreatedDate.getDate() > day)) {
       return "day-not-meet";
     }
     
@@ -79,13 +109,14 @@ export class CalendarViewComponent {
       const completedDate = new Date(date);
       const completedDateMonth = completedDate.getMonth();
       const completedDateDay = completedDate.getDate();
+      const completedDateYear = completedDate.getFullYear();
 
-      if(completedDateMonth === currentMonth && completedDateDay === day) return "completed";
+      if(completedDateMonth === currentMonth && completedDateDay === day && completedDateYear === this.currentMonth.getFullYear()) return "completed";
     }
 
     const currentDate = new Date();
 
-    if(currentDate.getMonth() === currentMonth && currentDate.getDate() < day) {
+    if((currentDate.getMonth() === currentMonth && currentDate.getDate() < day)) {
       return "day-not-meet";
     }
 
@@ -97,7 +128,7 @@ export class CalendarViewComponent {
 
     const todayDate: Date = new Date();
 
-    if(currentMonth === todayDate.getMonth() && todayDate.getDate() === day) return true;
+    if(currentMonth === todayDate.getMonth() && (todayDate.getDate() === day) && (this.currentMonth.getFullYear() === todayDate.getFullYear())) return true;
 
     return false;
   }
