@@ -21,7 +21,7 @@ export class CalendarViewComponent {
   private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
 
   private habitId: string | null;
-  private habitData: IHabit | null = null;
+  habitData: IHabit | null = null;
 
   toggleChangeMonth: boolean = false;
 

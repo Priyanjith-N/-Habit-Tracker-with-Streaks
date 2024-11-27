@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 // services
 import { AuthService } from '../../services/auth.service';
@@ -11,7 +11,9 @@ import { IAuthAPISucessfullResponse } from '../../../shared/models/IAPISucessRes
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [],
+  imports: [
+    RouterLink
+  ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
