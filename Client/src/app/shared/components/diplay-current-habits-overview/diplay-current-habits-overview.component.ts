@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 
 // componets
@@ -25,6 +25,8 @@ import { RouterLink } from '@angular/router';
   styleUrl: './diplay-current-habits-overview.component.css'
 })
 export class DiplayCurrentHabitsOverviewComponent {
+  @ViewChild("searchBox") searchInputElement: ElementRef<HTMLInputElement> | undefined;
+
   private habitServices: HabitService = inject(HabitService);
 
   isModalOpen: boolean = false;
@@ -48,11 +50,19 @@ export class DiplayCurrentHabitsOverviewComponent {
     });
   }
 
+  search(event: Event) {
+    const inputElement: HTMLInputElement = event.target as HTMLInputElement;
+    const searchText: string = inputElement.value.toLowerCase();
+ 
+    this.dispalyHabits = this.habitsData.filter((habit) => (habit.habitName.toLowerCase().startsWith(searchText) || (habit.currentStreak === Number(searchText)) || (habit.highestStreak === Number(searchText))));
+   }
+
   modalOpenOrClose(status: boolean = false, newHabit: IHabit | null = null) {
     this.isModalOpen = status;
 
     if(newHabit) { // only add new habit after new habited is added
-      // this.habitsData.push(newHabit);
+      if(this.searchInputElement) this.searchInputElement.nativeElement.value = "";
+      
       this.habitsData = [...this.habitsData, newHabit];
       this.dispalyHabits = this.habitsData;
     }
