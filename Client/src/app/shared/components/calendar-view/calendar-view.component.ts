@@ -23,6 +23,13 @@ export class CalendarViewComponent {
   private habitId: string | null;
   private habitData: IHabit | null = null;
 
+  toggleChangeMonth: boolean = false;
+
+  monthNames: string[] = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+
   currentMonth: Date;
   calendarDays: (number | null)[] = [];
 
@@ -33,6 +40,10 @@ export class CalendarViewComponent {
 
     this.currentMonth = new Date();
     this.generateCalendar(this.currentMonth)
+  }
+
+  toggleMonth() {
+    this.toggleChangeMonth = !this.toggleChangeMonth;
   }
 
   getData() {
@@ -54,7 +65,7 @@ export class CalendarViewComponent {
   }
 
   dayIsCompleted(day: number): "not-completed" | "completed" | "day-not-meet" {
-    if(!this.habitData) return "not-completed";
+    if(!this.habitData) return "day-not-meet";
     
     const currentMonth = this.currentMonth.getMonth();
 
@@ -79,6 +90,16 @@ export class CalendarViewComponent {
     }
 
     return "not-completed";
+  }
+
+  isCurrentDay(day: number) {
+    const currentMonth = this.currentMonth.getMonth();
+
+    const todayDate: Date = new Date();
+
+    if(currentMonth === todayDate.getMonth() && todayDate.getDate() === day) return true;
+
+    return false;
   }
 
   generateCalendar(date: Date) {
