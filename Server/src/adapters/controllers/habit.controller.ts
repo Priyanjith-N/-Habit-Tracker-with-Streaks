@@ -60,4 +60,17 @@ export default class HabitController implements IHabitController {
             next(err);
         }
     }
+
+    async getHabitData(req: IAuthRequest, res: Response, next: NextFunction): Promise<void> {
+        try {
+            const data: IHabit = await this.habitUseCase.getHabit(req.params.habitId, req.id!);
+
+            res.status(StatusCodes.Success).json({
+                message: ResponseMessage.SUCESSFULL,
+                data
+            });
+        } catch (err: any) {
+            next(err);
+        }
+    }
 }

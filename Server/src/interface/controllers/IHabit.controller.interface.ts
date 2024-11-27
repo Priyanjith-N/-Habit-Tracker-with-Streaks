@@ -7,4 +7,5 @@ export default interface IHabitController {
     createHabit(req: IAuthRequest, res: Response, next: NextFunction): Promise<void>;
     getAllHabitsOfUser(req: IAuthRequest, res: Response, next: NextFunction): Promise<void>;
     logHabitCompletion(req: IAuthRequest, res: Response, next: NextFunction): Promise<void>;
+    getHabitData(req: IAuthRequest, res: Response, next: NextFunction): Promise<void>;
 }

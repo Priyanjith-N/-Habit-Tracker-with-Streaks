@@ -40,7 +40,7 @@ export default class HabitUseCase implements IHabitUsecase {
             habitCredentials.description = habitCredentials.description ? habitCredentials.description : "";
 
             // save new habit in db
-            const newHabit: IHabit = await this.habitRepository.saveNewHabit(habitCredentials.habitName, habitCredentials.description, userId);
+            const newHabit: IHabit = await this.habitRepository.saveNewHabit(habitCredentials.habitName, habitCredentials.description, userId);            
 
             return newHabit;
         } catch (err: any) {
@@ -90,7 +90,6 @@ export default class HabitUseCase implements IHabitUsecase {
             if(!habitData) throw new RequiredCredentialsNotGiven(ErrorMessage.HABIT_NOT_FOUND, ErrorCode.HABIT_NOT_FOUND);
 
             const currentDate: Date = new Date();
-            currentDate.setHours(0, 0, 0, 0);
 
             if(habitData.datesCompleted.some((completedDate) => completedDate.toDateString() === currentDate.toDateString())) {
                 throw new ValidationError({
@@ -115,6 +114,20 @@ export default class HabitUseCase implements IHabitUsecase {
             }
 
             return await this.habitRepository.updateCompletionLogForHabit(habitData._id, currentDate, habitData.currentStreak, habitData.highestStreak);
+        } catch (err: any) {
+            throw err;
+        }
+    }
+
+    async getHabit(habitId: string | undefined, userId: string): Promise<IHabit | never> {
+        try {
+            if(!habitId || !isObjectIdOrHexString(habitId)) throw new RequiredCredentialsNotGiven(ErrorMessage.REQUIRED_CREDENTIALS_NOT_GIVEN, ErrorCode.CREDENTIALS_NOT_GIVEN_OR_NOT_FOUND);
+
+            const habitData: IHabit | null = await this.habitRepository.getHabitByHabitIdAndUserId(habitId, userId);
+
+            if(!habitData) throw new RequiredCredentialsNotGiven(ErrorMessage.HABIT_NOT_FOUND, ErrorCode.HABIT_NOT_FOUND);
+
+            return habitData;
         } catch (err: any) {
             throw err;
         }
