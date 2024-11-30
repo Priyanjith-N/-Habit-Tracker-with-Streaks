@@ -8,7 +8,7 @@ import IHabit from "../../entity/IHabit.entity";
 export default class HabitRepository implements IHabitRepository {
     async isHabitExisist(habitName: string, userId: string): Promise<IHabit | null | never> {
         try {
-            return await Habits.findOne({ habitName: { $regex: new RegExp(`^${habitName}$`, 'i') } }, { userId });
+            return await Habits.findOne({ habitName: { $regex: new RegExp(`^${habitName}$`, 'i') }, userId });
         } catch (err: any) {
             throw err;
         }
